@@ -16,7 +16,7 @@ body{
     border-radius:12px;
     text-align:center;
     width:100%;
-    max-width: 600px;
+    max-width: 900px;
 }
 
 table {
@@ -37,9 +37,9 @@ th {
 }
 
 button.btn-detalles {
-    background-color: #560767; /* Color azul característico de macOS */
+    background-color: #e97911; /* Color azul característico de macOS */
     color: white; /* Texto blanco */
-    border: 1px solid #007aff; /* Borde del mismo color que el fondo */
+    border: 1px solid white; /* Borde del mismo color que el fondo */
     border-radius: 12px; /* Bordes redondeados */
     padding: 10px 20px;
     margin:2px;
@@ -52,13 +52,13 @@ button.btn-detalles {
 }
 
 button.btn-detalles:hover {
-    background-color: #0051a8; /* Color más oscuro al pasar el ratón */
-    border-color: #0051a8; /* Cambio de borde al pasar el ratón */
+    background-color: #10a383; /* Color más oscuro al pasar el ratón */
+    border-color: white; /* Cambio de borde al pasar el ratón */
 }
 
 button.btn-detalles:active {
-    background-color: #003d80; /* Color más oscuro cuando se hace clic */
-    border-color: #003d80; /* Cambio de borde cuando se hace clic */
+    background-color: #10a383; /* Color más oscuro cuando se hace clic */
+    border-color: white; /* Cambio de borde cuando se hace clic */
 }
 
 button.btn-detalles:focus {
