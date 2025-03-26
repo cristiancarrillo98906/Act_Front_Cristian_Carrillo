@@ -42,6 +42,18 @@ function cargarUsuarios(){
             }
             detallesCell.appendChild(detallesButton)
 
+            //EDIT BUTTON
+            const editButton = document.createElement("button")
+            editButton.innerText = "Edit"
+            editButton.classList.add("btn-detalles");
+            editButton.style.backgroundColor = "#17a571"
+            editButton.onclick = function(){
+                window.location.href = "editUser.html?id=" + usuarios.id
+            }
+            detallesCell.appendChild(editButton)
+
+
+
 
             row.appendChild(idCell)
             row.appendChild(nombreCell)

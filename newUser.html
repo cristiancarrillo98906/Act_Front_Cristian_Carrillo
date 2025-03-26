@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Usuario</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Nuevo Usuario</h1>
+        <form onsubmit="crearUsuario(event)">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <br>
+            <input type="text" id="apellido" placeholder="Apellido" required>
+            <br>
+            <input type="email" id="correo" placeholder="Correo" required>
+            <br>
+            <input type="text" id="usuario" placeholder="Usuario" required>
+            <br>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <br>
+            <input type="text" id="perfil" placeholder="Perfil" required><br>
+            <br>
+            <button type="submit" class="btn-detalles">Guardar</button>
+        </form>
+        <button class="btn-detalles" onclick="window.location.href='usuarios.html'">Cancelar</button>
+    </div>
+    <script>
+        function crearUsuario(e){
+            e.preventDefault()
+            const name = document.getElementById("nombre").value
+            const lastname = document.getElementById("apellido").value
+            const email = document.getElementById("correo").value
+            const username = document.getElementById("usuario").value
+            const password = document.getElementById("password").value
+            const profile = document.getElementById("perfil").value
+        
+            fetch("http://localhost:4050/usuarios",{
+                    method:"POST",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({username,name,lastname,email,password,profile}) //@RequestBody
+                })
+                .then(function(respuestaTextoPlano){
+                    return respuestaTextoPlano.json()
+                })
+                .then(function(data){
+                    console.log(data)
+                    Swal.fire({
+                        title: "¡Insertado!",
+                        text: "¡Usuario creado con éxito!",
+                        icon: "success"
+                    })
+                    .then(function(){
+                            window.location.href="usuarios.html"
+                        })
+                    
+                })
+                .catch(function(error){
+                    console.log(error)
+                    Swal.fire({
+                        title: "¡Error!",
+                        text: error,
+                        icon: "error"
+                    });
+                })
+        }
+    </script>
+</body>
+</html>

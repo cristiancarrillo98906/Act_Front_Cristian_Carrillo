@@ -66,7 +66,7 @@ button.btn-detalles:focus {
 }
 
 /* Inputs */
-input[type="text"], input[type="number"] {
+input[type="text"], input[type="number"], input[type="email"], input[type="password"] {
     width: 100%;
     padding: 12px 20px;
     font-size: 14px;
@@ -80,11 +80,11 @@ input[type="text"], input[type="number"] {
     outline: none;
 }
 
-input[type="text"]:focus, input[type="number"]:focus {
+input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus {
     border-color: #007aff; /* Color del borde cuando está enfocado */
     background-color: #ffffff; /* Fondo blanco cuando se enfoca */
 }
 
-input[type="text"]:hover, input[type="number"]:hover {
+input[type="text"]:hover, input[type="number"]:hover, input[type="email"]:hover, input[type="password"]:hover {
     border-color: #007aff; /* Color del borde al pasar el ratón */
 }

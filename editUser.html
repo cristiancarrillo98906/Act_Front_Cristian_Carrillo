@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuario</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Usuario</h1>
+        <form onsubmit="editarUsuario(event)">
+            <input type="text" id="nombre" placeholder="Nombre" required>
+            <br>
+            <input type="text" id="apellido" placeholder="Apellido" required>
+            <br>
+            <input type="email" id="correo" placeholder="Correo" required>
+            <br>
+            <input type="text" id="usuario" placeholder="Usuario" required>
+            <br>
+            <input type="password" id="password" placeholder="Contraseña" required>
+            <br>
+            <input type="text" id="perfil" placeholder="Perfil" required><br>
+            <br>
+            <button type="submit" class="btn-detalles">Editar</button>
+        </form>
+        <button class="btn-detalles" onclick="window.location.href='usuarios.html'">Cancelar</button>
+    </div>
+    <script>
+
+        const urlParams = new URLSearchParams(window.location.search)
+        const idUsuario = urlParams.get("id")
+
+        function editarUsuario(e){
+            e.preventDefault()
+            const name = document.getElementById("nombre").value
+            const lastname = document.getElementById("apellido").value
+            const email = document.getElementById("correo").value
+            const username = document.getElementById("usuario").value
+            const password = document.getElementById("password").value
+            const profile = document.getElementById("perfil").value
+        
+
+            fetch("http://localhost:4050/usuarios/" + idUsuario,{
+                    method:"PUT",
+                    headers:{"Content-Type":"application/json"},
+                    body:JSON.stringify({username,name,lastname,email,password,profile}) //@RequestBody
+                })
+                .then(function(respuestaTextoPlano){
+                    return respuestaTextoPlano.json()
+                })
+                .then(function(data){
+                    console.log(data)
+                    Swal.fire({
+                        title: "Actualizado!",
+                        text: "¡Usuario actualizado con éxito!",
+                        icon: "success"
+                    })
+                    .then(function(){
+                            window.location.href="usuarios.html"
+                        })                    
+                })
+                .catch(function(error){
+                    console.log(error)
+                    Swal.fire({
+                        title: "¡Error!",
+                        text: error,
+                        icon: "error"
+                    });
+                })
+        }
+
+        function cargarDetallesUsuario(){
+
+            fetch("http://localhost:4050/usuarios/" + idUsuario)
+            .then(function(respuestaTextoPlano){
+                return respuestaTextoPlano.json()
+            })
+            .then(function(detalles){
+                console.log(detalles)
+                document.getElementById("nombre").value = detalles.name
+                document.getElementById("apellido").value = detalles.lastname
+                document.getElementById("correo").value = detalles.email
+                document.getElementById("usuario").value = detalles.username
+                document.getElementById("password").value = detalles.password
+                document.getElementById("perfil").value = detalles.profile
+            })
+            .catch(function(error){
+                console.log("Error en detalles", error)
+            })
+        }
+
+        cargarDetallesUsuario()
+    </script>
+</body>
+</html>
