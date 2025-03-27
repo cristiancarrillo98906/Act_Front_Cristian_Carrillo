@@ -64,9 +64,42 @@ button.btn-detalles:active {
 button.btn-detalles:focus {
     outline: none; /* Eliminar el borde azul cuando se hace focus en el botón */
 }
-
+#edit-button{
+    background-color: #17a571; /* Color azul característico de macOS */
+    color: white; /* Texto blanco */
+    border: 1px solid white; /* Borde del mismo color que el fondo */
+    border-radius: 12px; /* Bordes redondeados */
+    padding: 10px 20px;
+    margin:2px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    outline: none; /* Eliminar borde al enfocar */
+    transition: background-color 0.3s, border-color 0.3s;
+}
+#edit-button:hover{
+    background-color: #e97911;
+}
+#delete-button{
+    background-color: red; /* Color azul característico de macOS */
+    color: white; /* Texto blanco */
+    border: 1px solid white; /* Borde del mismo color que el fondo */
+    border-radius: 12px; /* Bordes redondeados */
+    padding: 10px 20px;
+    margin:2px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    outline: none; /* Eliminar borde al enfocar */
+    transition: background-color 0.3s, border-color 0.3s;
+}
+#delete-button:hover{
+    background-color: black;
+}
 /* Inputs */
-input[type="text"], input[type="number"], input[type="email"], input[type="password"] {
+input[type="text"], input[type="number"], input[type="email"], input[type="password"], textarea {
     width: 100%;
     padding: 12px 20px;
     font-size: 14px;

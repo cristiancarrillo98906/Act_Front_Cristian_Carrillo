@@ -45,14 +45,21 @@ function cargarUsuarios(){
             //EDIT BUTTON
             const editButton = document.createElement("button")
             editButton.innerText = "Edit"
-            editButton.classList.add("btn-detalles");
-            editButton.style.backgroundColor = "#17a571"
+            editButton.id = "edit-button"
             editButton.onclick = function(){
                 window.location.href = "editUser.html?id=" + usuarios.id
             }
             detallesCell.appendChild(editButton)
 
 
+            //DELETE BUTTON
+            const deleteButton = document.createElement("button")
+            deleteButton.innerText = "Delete"
+            deleteButton.id = "delete-button"
+            deleteButton.onclick = function(){
+                eliminarUsuario(usuarios.id)
+            }
+            detallesCell.appendChild(deleteButton)
 
 
             row.appendChild(idCell)
@@ -72,6 +79,57 @@ function cargarUsuarios(){
     })
 }
 
+function eliminarUsuario(id){
+    Swal.fire({
+        title:"¿Estás seguro?",
+        text:`Eliminar Usuario '${id}'. Esta acción no se puede deshacer`,
+        icon:"warning",
+        showCancelButton:true,
+        confirmButtonText:"Sí, eliminar",
+        cancelButtonText:"Cancelar"
+    }).then(function(result){
+        if(result.isConfirmed){
+            //Si le hemos dado a "Sí, eliminar"
+            fetch("http://localhost:4050/usuarios/" + id,{
+                method:"DELETE"
+            })
+            .then(function(respuestaTextoPlano){
+                return respuestaTextoPlano.json()
+            })
+            .then(function(data){
+                //OK
+                //data (String) y no JSON
+                console.log(data)
+                if(data.message.includes("Error")){
+                    Swal.fire({
+                        title: "Error!",
+                        text: data.message,
+                        icon: "error"
+                    })
+                } else {                
+                    Swal.fire({
+                        title: "Eliminado!",
+                        text: data.message,
+                        icon: "success"
+                    })
+                    .then(function(){
+                            //Refresco de página en JS desde el servidor y no desde caché
+                            window.location.reload(true)
+                            //cargarProductos()
+                        })
+                }                
+            })
+            .catch(function(error){
+                console.log(error)
+                Swal.fire({
+                    title: "¡Error!",
+                    text: error,
+                    icon: "error"
+                });
+            })
+        }
+    })
+}
 
 function cargarRestaurantes(){
     fetch("http://localhost:4050/restaurantes")
