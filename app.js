@@ -75,7 +75,7 @@ function cargarUsuarios(){
     })
     .catch(function(error){
         //Gestionamos el KO con "error" que tendrá formato JSON
-        console.log("Error al obtener los módulos: ", error)
+        console.log("Error al obtener los usuarios: ", error)
     })
 }
 
@@ -169,6 +169,23 @@ function cargarRestaurantes(){
             }
             detallesCell.appendChild(detallesButton)
 
+            //EDIT BUTTON
+            const editButton = document.createElement("button")
+            editButton.innerText = "Edit"
+            editButton.id = "edit-button"
+            editButton.onclick = function(){
+                window.location.href = "editRestaurante.html?id=" + restaurantes.id
+            }
+            detallesCell.appendChild(editButton)
+
+            //DELETE BUTTON
+            const deleteButton = document.createElement("button")
+            deleteButton.innerText = "Delete"
+            deleteButton.id = "delete-button"
+            deleteButton.onclick = function(){
+                eliminarRestaurante(restaurantes.id)
+            }
+            detallesCell.appendChild(deleteButton)
 
             row.appendChild(idCell)
             row.appendChild(nombreCell)
@@ -180,10 +197,61 @@ function cargarRestaurantes(){
     })
     .catch(function(error){
         //Gestionamos el KO con "error" que tendrá formato JSON
-        console.log("Error al obtener los módulos: ", error)
+        console.log("Error al obtener los restaurantes: ", error)
     })
 }
 
+function eliminarRestaurante(id){
+    Swal.fire({
+        title:"¿Estás seguro?",
+        text:`Eliminar Restaurante '${id}'. Esta acción no se puede deshacer`,
+        icon:"warning",
+        showCancelButton:true,
+        confirmButtonText:"Sí, eliminar",
+        cancelButtonText:"Cancelar"
+    }).then(function(result){
+        if(result.isConfirmed){
+            //Si le hemos dado a "Sí, eliminar"
+            fetch("http://localhost:4050/restaurantes/" + id,{
+                method:"DELETE"
+            })
+            .then(function(respuestaTextoPlano){
+                return respuestaTextoPlano.json()
+            })
+            .then(function(data){
+                //OK
+                //data (String) y no JSON
+                console.log(data)
+                if(data.message.includes("Error")){
+                    Swal.fire({
+                        title: "Error!",
+                        text: data.message,
+                        icon: "error"
+                    })
+                } else {                
+                    Swal.fire({
+                        title: "Eliminado!",
+                        text: data.message,
+                        icon: "success"
+                    })
+                    .then(function(){
+                            //Refresco de página en JS desde el servidor y no desde caché
+                            window.location.reload(true)
+                            //cargarProductos()
+                        })
+                }                
+            })
+            .catch(function(error){
+                console.log(error)
+                Swal.fire({
+                    title: "¡Error!",
+                    text: error,
+                    icon: "error"
+                });
+            })
+        }
+    })
+}
 // MAIN - Ejecución:
 cargarUsuarios()
 cargarRestaurantes()

@@ -28,6 +28,52 @@
         <button class="btn-detalles" onclick="window.location.href='usuarios.html'">Cancelar</button>
     </div>
     <script>
+
+        function crearUsuario(e) {
+            e.preventDefault();
+            const name = document.getElementById("nombre").value;
+            const lastname = document.getElementById("apellido").value;
+            const email = document.getElementById("correo").value;
+            const username = document.getElementById("usuario").value;
+            const password = document.getElementById("password").value;
+            const profile = document.getElementById("perfil").value;
+
+            console.log("Datos a enviar:", { username, name, lastname, email, password, profile });
+
+            fetch("http://localhost:4050/usuarios", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, name, lastname, email, password, profile })
+            })
+            .then(async (respuesta) => {
+                if (!respuesta.ok) {  
+                    // Si la respuesta no es exitosa, capturamos el mensaje de error
+                    const errorText = await respuesta.text(); 
+                    throw new Error(errorText || "No se pudo completar la acción.");
+                }
+                return respuesta.json();
+            })
+            .then(data => {
+                console.log("Respuesta del servidor:", data);
+                Swal.fire({
+                    title: "¡Insertado!",
+                    text: "¡Usuario creado con éxito!",
+                    icon: "success"
+                }).then(() => {
+                    window.location.href = "usuarios.html";
+                });
+            })
+            .catch(error => {
+                console.error("Error en la petición:", error);
+                Swal.fire({
+                    title: "¡Error!",
+                    text: "No se pudo completar la acción. Verifica los datos.",
+                    icon: "error"
+                });
+            });
+        }
+
+        /*
         function crearUsuario(e){
             e.preventDefault()
             const name = document.getElementById("nombre").value
@@ -36,6 +82,8 @@
             const username = document.getElementById("usuario").value
             const password = document.getElementById("password").value
             const profile = document.getElementById("perfil").value
+
+            console.log("Datos a enviar:", { username, name, lastname, email, password, profile });
         
             fetch("http://localhost:4050/usuarios",{
                     method:"POST",
@@ -46,7 +94,7 @@
                     return respuestaTextoPlano.json()
                 })
                 .then(function(data){
-                    console.log(data)
+                    console.log("Respuesta del servidor:", data)
                     Swal.fire({
                         title: "¡Insertado!",
                         text: "¡Usuario creado con éxito!",
@@ -58,7 +106,7 @@
                     
                 })
                 .catch(function(error){
-                    console.log(error)
+                    console.error("Error en la petición:", error);
                     Swal.fire({
                         title: "¡Error!",
                         text: error,
@@ -66,6 +114,7 @@
                     });
                 })
         }
+        */
     </script>
 </body>
 </html>
